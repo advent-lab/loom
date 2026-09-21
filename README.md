@@ -21,8 +21,11 @@ transformer layer on AMD Ryzen™ AI NPUs. It measures how the boundary between
 the host and NPU affects latency, effective throughput, power efficiency, and
 device-resource use.
 
-It accompanies the paper *SOO, MOO, and FOO: Transformer-Layer Execution on
-Ryzen AI NPUs* (H2RC 2026): [paper link — TODO](#). <!-- TODO: replace with the published paper URL -->
+It accompanies the paper:
+
+> C. J. Bansil, K. M. Mhatre, A. Shrivastava, and A. Arora. “SOO, MOO, and
+> FOO: Transformer-Layer Execution on Ryzen AI NPUs.” H2RC 2026 (SC26
+> Workshops). [paper link — TODO](#) <!-- TODO: replace with the published paper URL -->
 
 **Choose a run:** [validate the complete setup in minutes](#quick-run) or
 [launch the full benchmark suite](#full-benchmark-suite). For recovery,
