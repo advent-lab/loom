@@ -3,15 +3,15 @@ SPDX-FileCopyrightText: Copyright (C) 2026 Advanced Micro Devices, Inc. All righ
 SPDX-License-Identifier: Apache-2.0
 -->
 
-# Coarse Runlist Transformer Layer (`hybrid`)
+# Fused-Operator Offload (FOO) Transformer Layer (`hybrid`)
 
-Paper label: **`coarse runlist`**. The repo keeps `hybrid` as the internal
+Paper label: **`FOO`** (fused-operator offload). The repo keeps `hybrid` as the internal
 module name and CSV/schema key, so results rows for this strategy carry
-`execution_mode=hybrid` and `pattern_label=Coarse runlist`.
+`execution_mode=hybrid` and `pattern_label=FOO`.
 
 `AIETransformerHybrid` (`op.py`) runs a full transformer layer as a runlist of
-a few **coarse** kernels rather than many fine-grained operators. Each coarse
-kernel already fuses what would otherwise be several dispatches, so the
+a few **fused** operators rather than many single operators. Each fused
+operator already fuses what would otherwise be several dispatches, so the
 sequence the host submits is short and the intermediates largely stay on the
 device.
 
@@ -23,13 +23,13 @@ The layer is composed from these operators:
 - `AIEAddAndNorm`, `AIELayerNorm`, `AIEElementwiseAdd` — residual and
   normalisation positions
 
-Compare with the two other strategies:
+Compare with the two other offload modes:
 
-| Strategy | Granularity | Who sequences the work |
+| Offload mode | Granularity | Who sequences the work |
 | --- | --- | --- |
-| [`hybrid`](.) | coarse fused kernels | NPU runlist |
-| [`runlist`](../runlist/) | fine-grained operators | NPU runlist |
-| [`offload`](../offload/) | GEMM-level | host, per operator |
+| FOO: [`hybrid`](.) | fused operators | NPU runlist |
+| MOO: [`runlist`](../runlist/) | one operator per runlist entry | NPU runlist |
+| SOO: [`offload`](../offload/) | GEMM-level | host, per operator |
 
 ## Configuration
 
@@ -43,8 +43,8 @@ over variations of it; the candidates it considers live in
 
 ```bash
 source /opt/xilinx/xrt/setup.sh
-source /path/to/iron/ironenv/bin/activate
-cd /path/to/iron
+source /path/to/loom/ironenv/bin/activate
+cd /path/to/loom
 
 pytest iron/applications/transformer_layer/pattern/hybrid/
 ```

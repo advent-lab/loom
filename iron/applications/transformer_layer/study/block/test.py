@@ -404,7 +404,7 @@ def test_plot_best_latency_uses_shared_2x3_family_layout():
         plt.close(fig)
 
     assert axes_count == 6
-    assert visible_titles == ["B-M", "G-S"]
+    assert visible_titles == ["E-M", "D-S"]
     assert "Encoder" in text_labels
     assert "Decoder" in text_labels
 

@@ -52,9 +52,9 @@ NPU_AIE_CORE_CLOCK_HZ = 1.8e9
 NPU_AIE_CORES = 32
 NPU_SHIM_TILES = 8
 MODE_LABELS = {
-    "hybrid": "Coarse runlist",
-    "runlist": "Runlist",
-    "offload": "Offload",
+    "hybrid": "FOO",
+    "runlist": "MOO",
+    "offload": "SOO",
 }
 MODE_COLORS = {
     "hybrid": "#1f6f8b",

@@ -3,15 +3,15 @@ SPDX-FileCopyrightText: Copyright (C) 2026 Advanced Micro Devices, Inc. All righ
 SPDX-License-Identifier: Apache-2.0
 -->
 
-# Offload Transformer Layer (`offload`)
+# Single-Operator Offload (SOO) Transformer Layer (`offload`)
 
-Paper label: **`offload`**. Results rows carry `execution_mode=offload`.
+Paper label: **`SOO`** (single-operator offload). Results rows carry `execution_mode=offload`.
 
 `AIETransformerOffload` (`op.py`) keeps control of the layer on the **host**
 and offloads only the GEMMs to the NPU, through `AIEDynamicGEMM`. Everything
 between them — reshapes, softmax, normalisation, residuals — runs in torch on
 the host. This is the conventional accelerator-offload arrangement, and the
-baseline the other two strategies are measured against.
+baseline the other two offload modes are measured against.
 
 Eight GEMMs are offloaded, listed in `OFFLOAD_GEMM_OPERATOR_NAMES`:
 
@@ -50,8 +50,8 @@ live in `study/end_to_end/offload_candidates.json`.
 
 ```bash
 source /opt/xilinx/xrt/setup.sh
-source /path/to/iron/ironenv/bin/activate
-cd /path/to/iron
+source /path/to/loom/ironenv/bin/activate
+cd /path/to/loom
 
 pytest iron/applications/transformer_layer/pattern/offload/
 ```

@@ -63,7 +63,7 @@ This study has requirements the other studies do not. See the application
 
   ```bash
   source /opt/xilinx/xrt/setup.sh
-  source /path/to/iron/ironenv/bin/activate
+  source /path/to/loom/ironenv/bin/activate
   sudo xrt-smi configure --pmode turbo
   ```
 

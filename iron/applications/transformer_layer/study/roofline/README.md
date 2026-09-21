@@ -23,8 +23,8 @@ It emits:
   showing the best measured isolated kernel configuration for each logical
   operator in that bucket
 - one implementation roofline plot per `(compute_tiles_used, shim_tiles_used)`
-  bucket, showing the best full-path `hybrid` (coarse runlist), `runlist`, and
-  `offload` results in that bucket
+  bucket, showing the best full-path `hybrid` (FOO), `runlist` (MOO), and
+  `offload` (SOO) results in that bucket
 
 ## Dependencies
 

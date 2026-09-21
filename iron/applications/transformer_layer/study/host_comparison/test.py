@@ -539,11 +539,11 @@ def test_render_metric_plot_only_shows_igpu_and_hybrid_series():
     try:
         assert [text.get_text() for text in throughput_fig.legends[0].get_texts()] == [
             "iGPU",
-            "NPU Coarse Runlist",
+            "NPU FOO",
         ]
         visible_axes = [axis for axis in throughput_fig.axes if axis.axison]
         assert len(throughput_fig.axes) == 6
-        assert [axis.get_title(loc="left") for axis in visible_axes] == ["B-S"]
+        assert [axis.get_title(loc="left") for axis in visible_axes] == ["E-S"]
         assert len(visible_axes[0].patches) == 2
     finally:
         throughput_fig.clear()
@@ -567,11 +567,11 @@ def test_render_metric_plot_only_shows_igpu_and_hybrid_series():
     try:
         assert [text.get_text() for text in per_watt_fig.legends[0].get_texts()] == [
             "iGPU",
-            "NPU Coarse Runlist",
+            "NPU FOO",
         ]
         visible_axes = [axis for axis in per_watt_fig.axes if axis.axison]
         assert len(per_watt_fig.axes) == 6
-        assert [axis.get_title(loc="left") for axis in visible_axes] == ["B-S"]
+        assert [axis.get_title(loc="left") for axis in visible_axes] == ["E-S"]
         assert len(visible_axes[0].patches) == 2
     finally:
         per_watt_fig.clear()

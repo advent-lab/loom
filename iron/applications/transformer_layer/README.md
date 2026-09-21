@@ -6,19 +6,19 @@ SPDX-License-Identifier: Apache-2.0
 # Transformer Layer
 
 `transformer_layer` contains the paper-facing transformer-layer studies and
-the retained internal NPU execution modes:
+the retained internal NPU offload modes:
 
 - `pattern/hybrid`
 - `pattern/runlist`
 - `pattern/offload`
 
-The paper-facing taxonomy uses offload and runlist boundaries:
+The paper-facing taxonomy uses three offload modes:
 
 | Paper label | Repo mode | Role in this study |
 | --- | --- | --- |
-| `offload` | `offload` | Host-controlled transformer layer that offloads GEMM work to the NPU. |
-| `runlist` | `runlist` | Fine-grained NPU operator sequence with explicit intermediate movement. |
-| `coarse runlist` | `hybrid` | Runlist orchestration over coarse staged kernels; `hybrid` remains the internal CSV/schema key. |
+| `SOO` (single-operator offload) | `offload` | Host-controlled transformer layer that offloads GEMM work to the NPU. |
+| `MOO` (multi-operator offload) | `runlist` | Per-operator NPU runlist sequence with explicit intermediate movement. |
+| `FOO` (fused-operator offload) | `hybrid` | Runlist orchestration over fused operators; `hybrid` remains the internal CSV/schema key. |
 
 Retained studies:
 
@@ -35,6 +35,7 @@ The shared case matrix is:
 - workloads: `encoder_bert`, `decoder_gpt2`
 - families: `tinybert_512`, `baseline_768`, `baseline_1024`,
   `gpt2_512`, `gpt2_small_768`, `gpt2_medium_1024`
+  (paper and plot labels: `E-S`, `E-M`, `E-L`, `D-S`, `D-M`, `D-L`)
 - sequence lengths: `64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384`
 
 If you are starting from a fresh clone, read `## Prerequisites` and then
@@ -150,8 +151,8 @@ take minutes rather than hours:
 
 ```bash
 source /opt/xilinx/xrt/setup.sh
-source /path/to/iron/ironenv/bin/activate
-cd /path/to/iron
+source /path/to/loom/ironenv/bin/activate
+cd /path/to/loom
 
 sudo xrt-smi configure --pmode turbo
 xrt-smi examine -r all          # confirm "Power Mode : Turbo"
@@ -189,7 +190,7 @@ starting one. Both commands below install no boot hook and default
 
 `execution-smoke-test` is the one to run first. It exercises a reduced 21-job
 plan — `baseline_768` / `encoder_bert` at `seq_len=512` across all three
-execution modes, plus the downstream exports and the manifest — so it touches
+offload modes, plus the downstream exports and the manifest — so it touches
 the NPU, the runner, and the output contract end to end:
 
 ```bash
@@ -241,8 +242,8 @@ First failure: CalledProcessError: Command '['sudo', '-n', 'turbostat', ...
 
 ```bash
 source /opt/xilinx/xrt/setup.sh
-source /path/to/iron/ironenv/bin/activate
-cd /path/to/iron
+source /path/to/loom/ironenv/bin/activate
+cd /path/to/loom
 
 sudo xrt-smi configure --pmode turbo
 
@@ -346,7 +347,8 @@ identical dispatch counts and identical selected configurations.
 > kernel at the end, not necessarily the one the measurements ran under.
 
 Some differences are expected and are counted rather than flagged:
-`pattern_label` moved from `Hybrid` to `Coarse runlist`, and the autotuner
+`pattern_label` moved to the paper labels (`Hybrid`/`Coarse runlist` to `FOO`,
+`Runlist` to `MOO`, `Offload` to `SOO`), and the autotuner
 legitimately picks a different configuration when two candidates are near-tied,
 which also regroups the derived `resource_usage` and `roofline` CSVs.
 
@@ -410,13 +412,13 @@ results root you choose.
 
 ## Tests
 
-The execution modes and the study logic are covered by two different suites:
+The offload modes and the study logic are covered by two different suites:
 
 ```bash
 # Study logic: pure-Python, no NPU, seconds.
 pytest iron/applications/transformer_layer/study/
 
-# Execution modes: compiles and runs each strategy on the NPU, slow.
+# Offload modes: compiles and runs each mode on the NPU, slow.
 pytest iron/applications/transformer_layer/pattern/
 ```
 

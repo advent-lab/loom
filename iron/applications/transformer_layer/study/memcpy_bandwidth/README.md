@@ -55,8 +55,8 @@ If needed, kernel-mode rows can still be generated explicitly with
 
 ```bash
 source /opt/xilinx/xrt/setup.sh
-source /path/to/iron/ironenv/bin/activate
-cd /path/to/iron
+source /path/to/loom/ironenv/bin/activate
+cd /path/to/loom
 
 sudo xrt-smi configure --pmode turbo
 python3 -m iron.applications.transformer_layer.study.memcpy_bandwidth.run

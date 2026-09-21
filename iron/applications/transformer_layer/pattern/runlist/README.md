@@ -3,15 +3,15 @@ SPDX-FileCopyrightText: Copyright (C) 2026 Advanced Micro Devices, Inc. All righ
 SPDX-License-Identifier: Apache-2.0
 -->
 
-# Runlist Transformer Layer (`runlist`)
+# Multi-Operator Offload (MOO) Transformer Layer (`runlist`)
 
-Paper label: **`runlist`**. Results rows carry `execution_mode=runlist`.
+Paper label: **`MOO`** (multi-operator offload). Results rows carry `execution_mode=runlist`.
 
 `AIETransformerRunlist` (`op.py`) runs a full transformer layer as an NPU
-runlist of **fine-grained** operators, with intermediates moved explicitly
+runlist of **individual** operators, with intermediates moved explicitly
 between them. It is the granular counterpart to
-[`hybrid`](../hybrid/), which sequences the same layer over a few coarse fused
-kernels instead.
+[`hybrid`](../hybrid/), which sequences the same layer over a few fused
+operators instead.
 
 The layer is composed from single-purpose operators:
 
@@ -41,8 +41,8 @@ considers live in `study/end_to_end/runlist_candidates.json`.
 
 ```bash
 source /opt/xilinx/xrt/setup.sh
-source /path/to/iron/ironenv/bin/activate
-cd /path/to/iron
+source /path/to/loom/ironenv/bin/activate
+cd /path/to/loom
 
 pytest iron/applications/transformer_layer/pattern/runlist/
 ```

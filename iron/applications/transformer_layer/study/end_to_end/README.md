@@ -11,16 +11,16 @@ This study benchmarks the retained full-layer NPU modes:
 - `runlist`
 - `offload`
 
-Paper terminology maps those repo modes onto offload and runlist boundaries:
+Paper terminology maps those repo modes onto three offload modes:
 
 | Paper label | Repo evidence | Interpretation |
 | --- | --- | --- |
-| `offload` | `offload` | Host runtime executes the transformer layer and offloads GEMM kernels to the NPU. |
-| `runlist` | `runlist` | The layer is decomposed into fine-grained NPU operators with explicit intermediates. |
-| `coarse runlist` | `hybrid` selected blocks | Runlist orchestration over fused/staged NPU kernels that carry bandwidth-heavy regions. |
+| `SOO` | `offload` | Host runtime executes the transformer layer and offloads GEMM kernels to the NPU. |
+| `MOO` | `runlist` | The layer is decomposed into individual NPU operators with explicit intermediates. |
+| `FOO` | `hybrid` selected blocks | Runlist orchestration over fused NPU operators that carry bandwidth-heavy regions. |
 
-The proposed coarse runlist path uses the internal `hybrid` mode: it uses
-runtime sequencing around fused/staged coarse kernels rather than claiming a
+The proposed FOO path uses the internal `hybrid` mode: it uses
+runtime sequencing around fused operators rather than claiming a
 separate pure full-layer dataflow baseline.
 
 Configuration sources:
@@ -73,7 +73,7 @@ Environment:
 
 ```bash
 source /opt/xilinx/xrt/setup.sh
-source /path/to/iron/ironenv/bin/activate
+source /path/to/loom/ironenv/bin/activate
 sudo xrt-smi configure --pmode turbo
 xrt-smi examine -r all
 ```
@@ -94,7 +94,7 @@ Entry points:
 the per-watt columns without retuning or rerunning latency.
 
 `run_selected_component_aggregates` builds the selected-component comparison
-inputs used by the coarse runlist, runlist, and offload stacked latency plots.
+inputs used by the FOO, MOO, and SOO stacked latency plots.
 It reads `results_all_power.csv`, writes detailed component timings to
 `selected_component_timings.csv`, and writes grouped aggregates to
 `selected_component_aggregates.csv`.
@@ -104,10 +104,10 @@ By default, selected NPU operator timings are reused from the sibling
 config, family, workload variant, execution mode, operator, and sequence length
 match a passed tuning row. Missing NPU rows are rebenchmarked in `auto` mode;
 `--npu-source tuning` fails closed with missing rows instead, and
-`--npu-source rebenchmark` keeps the old fresh-measurement path. Offload host
+`--npu-source rebenchmark` keeps the old fresh-measurement path. SOO host
 groups are still freshly profiled because tuning only covers isolated NPU
-GEMM kernels. Coarse runlist rows reuse the selected fused/staged coarse-kernel
-timings from tuning and compare their sum to the full coarse runlist path.
+GEMM kernels. FOO rows reuse the selected fused-operator
+timings from tuning and compare their sum to the full FOO path.
 Existing detailed rows can be reused with `--resume-input` to avoid restarting
 completed host-group profiling. Use `--detailed-only` for checkpointed detail
 jobs and a final `--aggregate-only` pass to build the aggregate CSV from the

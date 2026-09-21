@@ -492,11 +492,11 @@ def test_main_writes_csv_and_canonical_plots(monkeypatch, tmp_path):
     assert svg_path.exists()
     assert speedup_path.exists()
     assert (
-        "Coarse Runlist MHA + Output Projection Kernel Latency by Memory-Tile Staging Depth"
+        "FOO MHA + Output Projection Kernel Latency by Partial-Sum Staging Depth"
         in svg_path.read_text(encoding="utf-8")
     )
     assert (
-        "Coarse Runlist FFN Kernel Speedup by Memory-Tile Staging Depth"
+        "FOO FFN Kernel Speedup by Partial-Sum Staging Depth"
         in speedup_path.read_text(encoding="utf-8")
     )
 

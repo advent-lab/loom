@@ -69,9 +69,9 @@ MODE_MARKERS = {
     "offload": "^",
 }
 MODE_LABELS = {
-    "hybrid": "Coarse runlist",
-    "runlist": "Runlist",
-    "offload": "Offload",
+    "hybrid": "FOO",
+    "runlist": "MOO",
+    "offload": "SOO",
 }
 FAMILY_LABELS = {
     "tinybert_512": "TinyBERT",

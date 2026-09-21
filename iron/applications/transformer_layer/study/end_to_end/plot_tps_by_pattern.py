@@ -22,9 +22,9 @@ from ..plot_families import (
 MODE_ORDER = ["hybrid", "runlist", "offload"]
 SEQ_ORDER = [64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384]
 MODE_LABELS = {
-    "hybrid": "Coarse runlist",
-    "runlist": "Runlist",
-    "offload": "Offload",
+    "hybrid": "FOO",
+    "runlist": "MOO",
+    "offload": "SOO",
 }
 MODE_COLORS = {
     "hybrid": "#1f6f8b",

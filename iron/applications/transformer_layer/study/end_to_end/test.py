@@ -251,9 +251,9 @@ def test_plot_tps_by_pattern_keeps_offload_rows(tmp_path):
     finally:
         plot_tps_by_pattern.plt.close(fig)
 
-    assert legend_labels == ["Coarse runlist", "Runlist", "Offload"]
+    assert legend_labels == ["FOO", "MOO", "SOO"]
     assert len(fig.axes) == 6
-    assert [axis.get_title(loc="left") for axis in visible_axes] == ["B-M"]
+    assert [axis.get_title(loc="left") for axis in visible_axes] == ["E-M"]
 
 
 def test_plot_tps_by_pattern_after_1024_tokens_filters_short_sequences(tmp_path):
@@ -286,7 +286,7 @@ def test_plot_tps_by_pattern_after_1024_tokens_filters_short_sequences(tmp_path)
         plot_tps_by_pattern.plt.close(fig)
 
     assert len(fig.axes) == 6
-    assert [axis.get_title(loc="left") for axis in visible_axes] == ["B-M"]
+    assert [axis.get_title(loc="left") for axis in visible_axes] == ["E-M"]
     assert tick_labels == ["2048", "4096"]
     assert (
         plot_tps_by_pattern.variant_stem(
@@ -356,7 +356,7 @@ def test_dataflow_plot_after_1024_tokens_filters_short_sequences(tmp_path):
         plot_dataflow_blocks_vs_pattern.plt.close(fig)
 
     assert len(fig.axes) == 6
-    assert [axis.get_title(loc="left") for axis in visible_axes] == ["B-M"]
+    assert [axis.get_title(loc="left") for axis in visible_axes] == ["E-M"]
     assert tick_labels == ["2048", "4096"]
     assert (
         plot_dataflow_blocks_vs_pattern.variant_stem(
@@ -386,12 +386,12 @@ def test_plot_family_helper_uses_canonical_order_and_short_labels():
         "gpt2_small_768",
         "gpt2_medium_1024",
     )
-    assert plot_families.plot_family_label("tinybert_512") == "B-S"
-    assert plot_families.plot_family_label("baseline_768") == "B-M"
-    assert plot_families.plot_family_label("baseline_1024") == "B-L"
-    assert plot_families.plot_family_label("gpt2_512") == "G-S"
-    assert plot_families.plot_family_label("gpt2_small_768") == "G-M"
-    assert plot_families.plot_family_label("gpt2_medium_1024") == "G-L"
+    assert plot_families.plot_family_label("tinybert_512") == "E-S"
+    assert plot_families.plot_family_label("baseline_768") == "E-M"
+    assert plot_families.plot_family_label("baseline_1024") == "E-L"
+    assert plot_families.plot_family_label("gpt2_512") == "D-S"
+    assert plot_families.plot_family_label("gpt2_small_768") == "D-M"
+    assert plot_families.plot_family_label("gpt2_medium_1024") == "D-L"
     assert plot_families.plot_family_grid_position("gpt2_512") == (1, 0)
 
 
@@ -414,7 +414,7 @@ def test_plot_tps_by_pattern_uses_shared_2x3_layout_for_encoder_and_decoder(tmp_
         plot_tps_by_pattern.plt.close(fig)
 
     assert len(fig.axes) == 6
-    assert visible_titles == ["B-S", "G-S"]
+    assert visible_titles == ["E-S", "D-S"]
 
 
 def _write_csv(path: Path, rows: list[dict[str, str]]) -> None:
@@ -1831,10 +1831,10 @@ def test_selected_component_plotter_renders_synthetic_hybrid_aggregate_rows(
         plot_selected_component_groups_vs_pattern.plt.close(fig)
 
     assert len(fig.axes) == 6
-    assert [axis.get_title(loc="left") for axis in visible_axes] == ["B-S"]
+    assert [axis.get_title(loc="left") for axis in visible_axes] == ["E-S"]
     assert legend_labels == [
         *run_selected_component_aggregates.HYBRID_GROUP_ORDER,
-        "Coarse Runlist End-to-End",
+        "FOO End-to-End",
     ]
 
 
@@ -1900,10 +1900,10 @@ def test_selected_component_plotter_renders_synthetic_runlist_aggregate_rows(
         plot_selected_component_groups_vs_pattern.plt.close(fig)
 
     assert len(fig.axes) == 6
-    assert [axis.get_title(loc="left") for axis in visible_axes] == ["B-S"]
+    assert [axis.get_title(loc="left") for axis in visible_axes] == ["E-S"]
     assert legend_labels == [
         *run_selected_component_aggregates.RUNLIST_GROUP_ORDER,
-        "Runlist End-to-End",
+        "MOO End-to-End",
     ]
 
 
@@ -1966,10 +1966,10 @@ def test_selected_component_plotter_renders_synthetic_offload_aggregate_rows(
         plot_selected_component_groups_vs_pattern.plt.close(fig)
 
     assert len(fig.axes) == 6
-    assert [axis.get_title(loc="left") for axis in visible_axes] == ["B-S"]
+    assert [axis.get_title(loc="left") for axis in visible_axes] == ["E-S"]
     assert legend_labels == [
         *run_selected_component_aggregates.OFFLOAD_GROUP_ORDER,
-        "Offload End-to-End",
+        "SOO End-to-End",
     ]
 
 
@@ -3753,7 +3753,7 @@ def test_build_rows_reuses_matching_tuning_and_final_rows(monkeypatch):
                 "workload_variant": case.workload_variant,
                 "backend": "npu",
                 "execution_mode": execution_mode,
-                "pattern_label": "Coarse runlist",
+                "pattern_label": "FOO",
                 "seq_len": str(case.seq_len),
                 "hidden_size": str(case.hidden_size),
                 "intermediate_size": str(case.intermediate_size),
