@@ -7,13 +7,9 @@ SPDX-License-Identifier: Apache-2.0
 
 <a href="https://discord.gg/cW99Ds85e8">
     <img src="https://img.shields.io/badge/Discord-7289DA?logo=discord&logoColor=white" alt="Discord" /></a>
-<a href="https://github.com/amd/iron/releases/latest" title="Download the latest release">
-   <img src="https://img.shields.io/github/v/release/amd/iron?include_prereleases" alt="Latest Release" /></a>
-<a href="https://github.com/amd/iron/actions" title="Check out our tests">
-   <img src="https://github.com/amd/iron/actions/workflows/small.yml/badge.svg" alt="Iron Tests" /></a>
-<a href="https://github.com/amd/iron/blob/main/CONTRIBUTING.md" title="Contribution Guide">
+<a href="https://github.com/advent-lab/loom/blob/devel/CONTRIBUTING.md" title="Contribution Guide">
     <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome" /></a>
-<a href="https://github.com/amd/iron/blob/main/LICENSE">
+<a href="https://github.com/advent-lab/loom/blob/devel/LICENSE">
     <img src="https://img.shields.io/badge/license-Apache-yellow.svg" alt="license: Apache" /></a>
 
 <p align="center">
