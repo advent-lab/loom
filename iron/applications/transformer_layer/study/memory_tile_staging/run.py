@@ -308,7 +308,7 @@ def build_selection_rows(
         )
         if removed_reason:
             LOGGER.info(
-                "Skipping removed memory-tile staging case %s staging_depth=%s: %s",
+                "Skipping removed partial-sum staging case %s staging_depth=%s: %s",
                 _selection_descriptor(selection),
                 staging_depth,
                 removed_reason,
@@ -423,7 +423,7 @@ def build_rows(
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Benchmark memory-tile staging depth for selected block-study winners."
+        description="Benchmark partial-sum staging depth for selected block-study winners."
     )
     parser.add_argument(
         "--family",
@@ -461,13 +461,13 @@ def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
     warn_if_npu_power_mode_not_turbo(
         LOGGER,
-        study_name="memory-tile staging study",
+        study_name="partial-sum staging study",
     )
     reference_input = args.reference_input.expanduser()
     output_path = args.output.expanduser()
     with hold_study_lock(
         default_lock_path(output_path),
-        study_name="transformer_layer memory-tile staging study",
+        study_name="transformer_layer partial-sum staging study",
     ):
         resume_paths: tuple[Path, ...] = tuple()
         if args.no_resume:
@@ -489,14 +489,14 @@ def main(argv: list[str] | None = None) -> int:
         existing_rows = load_existing_rows(resume_paths)
         if resume_paths and existing_rows:
             LOGGER.info(
-                "Loaded %d reusable memory-tile staging rows from %s",
+                "Loaded %d reusable partial-sum staging rows from %s",
                 len(existing_rows),
                 ", ".join(str(path) for path in resume_paths),
             )
         removed_case_notes = load_removed_case_notes()
         if removed_case_notes:
             LOGGER.info(
-                "Loaded %d removed memory-tile staging cases from %s",
+                "Loaded %d removed partial-sum staging cases from %s",
                 len(removed_case_notes),
                 removed_cases_path(),
             )
@@ -539,7 +539,7 @@ def main(argv: list[str] | None = None) -> int:
             mark_best_rows(rows)
             write_rows(output_path, rows)
             LOGGER.info(
-                "Checkpointed %d memory-tile staging rows after selection %d/%d",
+                "Checkpointed %d partial-sum staging rows after selection %d/%d",
                 len(rows),
                 index,
                 total_selections,
@@ -550,7 +550,7 @@ def main(argv: list[str] | None = None) -> int:
         mark_best_rows(rows)
         write_rows(output_path, rows)
         write_canonical_plots(output_path, output_path.parent)
-        LOGGER.info("Wrote %d memory-tile staging rows to %s", len(rows), output_path)
+        LOGGER.info("Wrote %d partial-sum staging rows to %s", len(rows), output_path)
     return 0
 
 

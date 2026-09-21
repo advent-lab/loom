@@ -3,27 +3,29 @@ SPDX-FileCopyrightText: Copyright (C) 2025-2026 Advanced Micro Devices, Inc. All
 SPDX-License-Identifier: Apache-2.0
 -->
 
-# 🦾 IRON Transformer Layer Study
+# 🦾 LOOM Transformer Layer Study
 
 <a href="https://discord.gg/cW99Ds85e8">
     <img src="https://img.shields.io/badge/Discord-7289DA?logo=discord&logoColor=white" alt="Discord" /></a>
-<a href="https://github.com/amd/iron/releases/latest" title="Download the latest release">
-   <img src="https://img.shields.io/github/v/release/amd/iron?include_prereleases" alt="Latest Release" /></a>
-<a href="https://github.com/amd/iron/actions" title="Check out our tests">
-   <img src="https://github.com/amd/iron/actions/workflows/small.yml/badge.svg" alt="Iron Tests" /></a>
-<a href="https://github.com/amd/iron/blob/main/CONTRIBUTING.md" title="Contribution Guide">
+<a href="https://github.com/advent-lab/loom/blob/devel/CONTRIBUTING.md" title="Contribution Guide">
     <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome" /></a>
-<a href="https://github.com/amd/iron/blob/main/LICENSE">
+<a href="https://github.com/advent-lab/loom/blob/devel/LICENSE">
     <img src="https://img.shields.io/badge/license-Apache-yellow.svg" alt="license: Apache" /></a>
 
 <p align="center">
-   <img src="./images/XDNA2.png" alt="IRON on AMD Ryzen AI" style="max-width: 100%; height: auto;">
+   <img src="./images/XDNA2.png" alt="LOOM on AMD Ryzen AI" style="max-width: 100%; height: auto;">
 </p>
 
-This repository's primary application compares three ways to execute a full
+This repository's primary application compares three offload modes for executing a full
 transformer layer on AMD Ryzen™ AI NPUs. It measures how the boundary between
 the host and NPU affects latency, effective throughput, power efficiency, and
 device-resource use.
+
+It accompanies the paper:
+
+> C. J. Bansil, K. M. Mhatre, A. Shrivastava, and A. Arora. “SOO, MOO, and
+> FOO: Transformer-Layer Execution on Ryzen AI NPUs.” H2RC 2026 (SC26
+> Workshops). [paper link — TODO](#) <!-- TODO: replace with the published paper URL -->
 
 **Choose a run:** [validate the complete setup in minutes](#quick-run) or
 [launch the full benchmark suite](#full-benchmark-suite). For recovery,
@@ -34,13 +36,13 @@ troubleshooting, and every study entrypoint, use the
 
 | Paper label | Repo mode | Execution boundary |
 | --- | --- | --- |
-| `offload` | `offload` | The host executes the layer and offloads its GEMMs to the NPU. |
-| `runlist` | `runlist` | A fine-grained NPU operator sequence moves intermediates explicitly. |
-| `coarse runlist` | `hybrid` | An NPU runlist sequences a few fused, staged kernels. |
+| `SOO` (single-operator offload) | `offload` | The host executes the layer and offloads its GEMMs to the NPU. |
+| `MOO` (multi-operator offload) | `runlist` | An NPU runlist of per-operator mappings moves intermediates explicitly. |
+| `FOO` (fused-operator offload) | `hybrid` | An NPU runlist sequences a few fused operators. |
 
 The case matrix covers BERT encoder and GPT-2 decoder layers, six model
 families, and sequence lengths from 64 through 16384 tokens. Seven studies
-measure block tuning, end-to-end behavior, memory-tile staging, host/iGPU
+measure block tuning, end-to-end behavior, partial-sum staging, host/iGPU
 comparison, memcpy bandwidth, resource use, and roofline placement. The source
 tree does not include measured results; each run produces its own result tree.
 
@@ -148,7 +150,7 @@ python3 -m iron.applications.transformer_layer.study.memory_tile_staging.run \
 python3 -m iron.applications.transformer_layer.study.memcpy_bandwidth.run
 ```
 
-Keep that order: the memory-tile staging study reads the block-study CSV. The
+Keep that order: the partial-sum staging study reads the block-study CSV. The
 commands create:
 
 - `iron/applications/transformer_layer/results/block/results.csv`
@@ -163,7 +165,7 @@ python3 -m iron.applications.transformer_layer.study.unattended_reboot \
 ```
 
 This runs 21 jobs for `baseline_768`, BERT encoder, and sequence length 512
-across all three execution modes, then exercises the downstream studies and
+across all three offload modes, then exercises the downstream studies and
 output manifest. It takes minutes, installs no boot hook, and does not reboot.
 Success ends with a completed state and a new
 `iron/applications/transformer_layer/results_unattended_execution_smoke_*`
@@ -203,12 +205,12 @@ gitignored and are not part of the repository checkout.
 
 - [Detailed transformer-layer guide](./iron/applications/transformer_layer/README.md)
 - [Output inventory](./iron/applications/transformer_layer/README.md#outputs)
-- [Execution-mode and per-study documentation](./iron/applications/transformer_layer/README.md#documentation)
+- [Offload-mode and per-study documentation](./iron/applications/transformer_layer/README.md#documentation)
 - [Comparing two result trees](./iron/applications/transformer_layer/README.md#comparing-runs-against-a-reference)
 
 ## Other IRON Components
 
-IRON is a close-to-metal Python API built on MLIR-AIE for AMD Ryzen AI NPUs.
+LOOM is a fork of [IRON](https://github.com/amd/iron), a close-to-metal Python API built on MLIR-AIE for AMD Ryzen AI NPUs.
 The transformer application composes the reusable kernels and operators in the
 rest of the repository:
 

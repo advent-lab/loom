@@ -20,8 +20,8 @@ from iron.applications.transformer_layer.study.end_to_end.cases import (
 from .select import STAGING_BLOCK_KINDS
 
 BLOCK_LABELS = {
-    "mha_out_proj": "Coarse Runlist MHA + Output Projection Kernel",
-    "ffn": "Coarse Runlist FFN Kernel",
+    "mha_out_proj": "FOO MHA + Output Projection Kernel",
+    "ffn": "FOO FFN Kernel",
 }
 FAMILY_LABELS_BY_BLOCK = {
     "mha_out_proj": {
@@ -105,8 +105,8 @@ def render_plot(
         "speedup": "Speedup vs Depth 1",
     }[metric]
     title = {
-        "latency": f"{BLOCK_LABELS[block_kind]} Latency by Memory-Tile Staging Depth",
-        "speedup": f"{BLOCK_LABELS[block_kind]} Speedup by Memory-Tile Staging Depth",
+        "latency": f"{BLOCK_LABELS[block_kind]} Latency by Partial-Sum Staging Depth",
+        "speedup": f"{BLOCK_LABELS[block_kind]} Speedup by Partial-Sum Staging Depth",
     }[metric]
 
     sns.set_theme(
@@ -274,7 +274,7 @@ def write_canonical_plots(results_csv: Path, output_dir: Path) -> None:
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Render memory-tile staging depth study plots."
+        description="Render partial-sum staging depth study plots."
     )
     parser.add_argument("--results", type=Path, default=default_results_csv())
     parser.add_argument("--output-dir", type=Path, default=default_output_dir())

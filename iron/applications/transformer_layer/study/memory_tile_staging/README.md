@@ -3,13 +3,13 @@ SPDX-FileCopyrightText: Copyright (C) 2026 Advanced Micro Devices, Inc. All righ
 SPDX-License-Identifier: Apache-2.0
 -->
 
-# Memory-Tile Staging Study
+# Partial-Sum Staging Study
 
 Status: `implemented`
 
 ## Goal
 
-Benchmark how memory-tile staging depth changes block latency for:
+Benchmark how partial-sum staging depth changes block latency for:
 
 - `mha_out_proj`
 - `ffn`
@@ -85,7 +85,7 @@ Entrypoint:
 Environment setup:
 
 - `source /opt/xilinx/xrt/setup.sh`
-- `source /path/to/iron/ironenv/bin/activate`
+- `source /path/to/loom/ironenv/bin/activate`
 - `sudo xrt-smi configure --pmode turbo`
 - verify with `xrt-smi examine -r all`
 

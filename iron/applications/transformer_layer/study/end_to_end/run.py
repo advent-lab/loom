@@ -39,11 +39,11 @@ csv.field_size_limit(sys.maxsize)
 
 def _pattern_label(execution_mode: str) -> str:
     if execution_mode == "hybrid":
-        return "Coarse runlist"
+        return "FOO"
     if execution_mode == "runlist":
-        return "Runlist"
+        return "MOO"
     if execution_mode == "offload":
-        return "Offload"
+        return "SOO"
     return execution_mode
 
 

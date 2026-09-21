@@ -107,11 +107,11 @@ POWER_COMPARISON_METRICS: tuple[str, ...] = (
 )
 PLOT_SERIES_THROUGHPUT = (
     ("igpu", "iGPU", "#e07a5f"),
-    ("hybrid", "NPU Coarse Runlist", "#1f6f8b"),
+    ("hybrid", "NPU FOO", "#1f6f8b"),
 )
 PLOT_SERIES_PER_WATT = (
     ("igpu_rocm_smi", "iGPU", "#e07a5f"),
-    ("hybrid", "NPU Coarse Runlist", "#1f6f8b"),
+    ("hybrid", "NPU FOO", "#1f6f8b"),
 )
 PLOT_SEQ_ORDER = (64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384)
 SUPPORTED_PLOT_SUFFIX = ".svg"

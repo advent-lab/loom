@@ -54,14 +54,14 @@ PATTERN_COLOR = "#d8d4cf"
 PATTERN_EDGE = "#2b2b2b"
 LONG_SEQUENCE_SUFFIX_TEMPLATE = "after_{threshold}_tokens"
 MODE_TITLES = {
-    "hybrid": "Aggregate Latency of Selected Coarse Kernels Compared to End-to-End Coarse Runlist Latency",
-    "runlist": "Aggregate Latency of Selected Runlist Operations Compared to End-to-End Runlist Latency",
-    "offload": "Aggregate Latency of Selected Offload Groups Compared to End-to-End Offload Latency",
+    "hybrid": "Aggregate Latency of Selected Fused Operators Compared to End-to-End FOO Latency",
+    "runlist": "Aggregate Latency of Selected MOO Operations Compared to End-to-End MOO Latency",
+    "offload": "Aggregate Latency of Selected SOO Groups Compared to End-to-End SOO Latency",
 }
 MODE_PATTERN_LABELS = {
-    "hybrid": "Coarse Runlist End-to-End",
-    "runlist": "Runlist End-to-End",
-    "offload": "Offload End-to-End",
+    "hybrid": "FOO End-to-End",
+    "runlist": "MOO End-to-End",
+    "offload": "SOO End-to-End",
 }
 
 
@@ -578,7 +578,7 @@ def render_plot(
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Render a stacked comparison of selected coarse-runlist/runlist/offload component-group latencies versus full-path latency."
+        description="Render a stacked comparison of selected FOO/MOO/SOO component-group latencies versus full-path latency."
     )
     parser.add_argument("--results", type=Path, default=default_results_csv())
     parser.add_argument("--output-dir", type=Path, default=default_output_dir())

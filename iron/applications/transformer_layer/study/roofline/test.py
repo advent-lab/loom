@@ -716,5 +716,5 @@ def test_render_roofline_plot_and_main_write_outputs(tmp_path: Path) -> None:
     assert "Kernel Roofline" in kernel_text
     assert "Implementation Roofline" in implementation_text
     assert "Compute Tile" in kernel_text
-    assert "B-S" in kernel_text
-    assert "Coarse runlist" in implementation_text
+    assert "E-S" in kernel_text
+    assert "FOO" in implementation_text

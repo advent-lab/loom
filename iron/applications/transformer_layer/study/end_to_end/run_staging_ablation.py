@@ -36,8 +36,8 @@ STAGING_ABLATION_SEQUENCE_LENGTHS = tuple(
     seq_len for seq_len in SEQUENCE_LADDER if 256 <= seq_len <= 8192
 )
 BLOCK_LABELS = {
-    "mha_out_proj": "Coarse Runlist MHA + Output Projection Staging Ablation",
-    "ffn": "Coarse Runlist FFN Staging Ablation",
+    "mha_out_proj": "FOO MHA + Output Projection Staging Ablation",
+    "ffn": "FOO FFN Staging Ablation",
 }
 FAMILY_LABELS = {
     "tinybert_512": "TinyBERT",
@@ -715,7 +715,7 @@ def render_plot(rows: list[dict[str, object]]) -> plt.Figure:
         fig.text(
             0.5,
             0.57,
-            "End-to-End Coarse Runlist Latency by Block Staging Depth",
+            "End-to-End FOO Latency by Block Staging Depth",
             ha="center",
             va="center",
             fontsize=24,
@@ -822,7 +822,7 @@ def render_plot(rows: list[dict[str, object]]) -> plt.Figure:
         title_fontsize=13,
     )
     fig.suptitle(
-        "End-to-End Coarse Runlist Latency by Block Staging Depth",
+        "End-to-End FOO Latency by Block Staging Depth",
         fontsize=24,
         fontweight="bold",
         y=0.98,
@@ -840,7 +840,7 @@ def write_plot(output_path: Path, rows: list[dict[str, object]]) -> None:
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Run end-to-end hybrid staging-depth ablations for selected NPU configs."
+        description="Run end-to-end FOO staging-depth ablations for selected NPU configs."
     )
     parser.add_argument(
         "--results-input",

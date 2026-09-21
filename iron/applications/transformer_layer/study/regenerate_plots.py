@@ -203,7 +203,7 @@ def regenerate_memory_tile_staging_plots(results_root: Path) -> None:
     results_csv = results_root / "memory_tile_staging" / "results.csv"
     _require_file(results_csv)
     write_canonical_plots(results_csv, results_csv.parent)
-    LOGGER.info("Wrote memory-tile staging plots under %s", results_csv.parent)
+    LOGGER.info("Wrote partial-sum staging plots under %s", results_csv.parent)
 
 
 def regenerate_host_comparison_plots(results_root: Path) -> None:

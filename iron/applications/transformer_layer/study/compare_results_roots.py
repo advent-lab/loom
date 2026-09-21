@@ -24,8 +24,9 @@ The comparison is therefore tiered:
 
 Selection columns (`is_best`, `selected_config_json`) flip legitimately when
 the autotuner picks between near-tied candidates, so they are counted rather
-than flagged. The `pattern_label` rename `Hybrid` -> `Coarse runlist` is a
-known intended difference and is counted the same way.
+than flagged. The `pattern_label` renames to the paper labels (`Hybrid` /
+`Coarse runlist` -> `FOO`, `Runlist` -> `MOO`, `Offload` -> `SOO`) are known
+intended differences and are counted the same way.
 
 Before trusting any comparison, check that the two runs share a runtime stack.
 `results_manifest.json` records the git commit, the dirty flag, the platform,
@@ -114,7 +115,26 @@ INFORMATIONAL_FIELDS = (
 )
 
 # Differences introduced on purpose by the execution-strategy rename.
-RENAMED_VALUES = {"pattern_label": {"Hybrid": "Coarse runlist"}}
+RENAMED_VALUES = {
+    "pattern_label": {
+        "Hybrid": ("Coarse runlist", "FOO"),
+        "Coarse runlist": ("FOO",),
+        "Runlist": ("MOO",),
+        "Offload": ("SOO",),
+    }
+}
+
+
+def _current_labels(cell: str) -> str:
+    for legacy, current in (
+        ("Coarse runlist", "FOO"),
+        ("Hybrid", "FOO"),
+        ("Runlist", "MOO"),
+        ("Offload", "SOO"),
+    ):
+        cell = cell.replace(legacy, current)
+    return cell
+
 
 RESULT_CSVS = (
     "end_to_end/results_all_power.csv",
@@ -163,7 +183,7 @@ def _row_key(row: dict[str, str]) -> tuple[str, ...]:
 
 
 def _is_intended_rename(field: str, baseline: str, candidate: str) -> bool:
-    return RENAMED_VALUES.get(field, {}).get(baseline) == candidate
+    return candidate in RENAMED_VALUES.get(field, {}).get(baseline, ())
 
 
 def percentile_90(values: list[float]) -> float:
@@ -442,13 +462,13 @@ def compare_derived_csv(
             if before == after:
                 continue
             differing_cells += 1
-            if before.replace("Hybrid", "Coarse runlist") != after:
+            if _current_labels(before) != _current_labels(after):
                 rename_only = False
 
     if rename_only:
         report.say(
             f"  {rel_path}: {differing_cells} cells differ, all explained by the "
-            "Hybrid -> Coarse runlist rename"
+            "paper-label rename"
         )
     else:
         report.say(

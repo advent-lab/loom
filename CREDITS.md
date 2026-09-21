@@ -5,6 +5,9 @@ SPDX-License-Identifier: Apache-2.0
 
 # Credits
 
+> These are the credits for [IRON](https://github.com/amd/iron), the upstream
+> project that LOOM is forked from.
+
 This project owes its success to the following people and organizations:
 
 ## Contributors

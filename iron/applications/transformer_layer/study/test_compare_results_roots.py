@@ -279,5 +279,9 @@ def test_percentile_90_uses_nearest_rank():
 
 def test_is_intended_rename_only_matches_the_known_pair():
     assert _is_intended_rename("pattern_label", "Hybrid", "Coarse runlist")
+    assert _is_intended_rename("pattern_label", "Hybrid", "FOO")
+    assert _is_intended_rename("pattern_label", "Coarse runlist", "FOO")
+    assert _is_intended_rename("pattern_label", "Runlist", "MOO")
+    assert _is_intended_rename("pattern_label", "Offload", "SOO")
     assert not _is_intended_rename("pattern_label", "Hybrid", "Something else")
     assert not _is_intended_rename("workload_variant", "Hybrid", "Coarse runlist")

@@ -302,7 +302,7 @@ def render_plot(
         Patch(
             facecolor=PATTERN_COLOR,
             edgecolor=PATTERN_EDGE,
-            label="Coarse Runlist End-to-End",
+            label="FOO End-to-End",
         )
     )
     fig.legend(
@@ -314,7 +314,7 @@ def render_plot(
         fontsize=legend_font_size,
     )
     fig.suptitle(
-        "Aggregate Latency of Coarse Kernels Compared to Coarse Runlist End-to-End Latency"
+        "Aggregate Latency of Fused Operators Compared to FOO End-to-End Latency"
         + (
             f" (>{int(min_seq_len_exclusive)} Tokens)"
             if min_seq_len_exclusive is not None
@@ -330,7 +330,7 @@ def render_plot(
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Render a stacked comparison of selected coarse-kernel latencies versus full-path latency."
+        description="Render a stacked comparison of selected fused-operator latencies versus full-path latency."
     )
     parser.add_argument(
         "--results",

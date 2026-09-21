@@ -78,7 +78,7 @@ Entrypoint:
 Environment setup:
 
 - `source /opt/xilinx/xrt/setup.sh`
-- `source /path/to/iron/ironenv/bin/activate`
+- `source /path/to/loom/ironenv/bin/activate`
 - `sudo xrt-smi configure --pmode turbo`
 - verify with `xrt-smi examine -r all`
 
